@@ -1,20 +1,4 @@
-/*******************************************************************************************
- *
- *   raylib [core] example - 2d camera platformer
- *
- *   Example complexity rating: [★★★☆] 3/4
- *
- *   Example originally created with raylib 2.5, last time updated with raylib 3.0
- *
- *   Example contributed by arvyy (@arvyy) and reviewed by Ramon Santamaria (@raysan5)
- *
- *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
- *   BSD-like license that allows static linking with closed source software
- *
- *   Copyright (c) 2019-2025 arvyy (@arvyy)
- *
- ********************************************************************************************/
-
+// Imports
 #include "raylib.h"
 #include "raymath.h"
 
@@ -70,7 +54,8 @@ int main(void)
         {{0, 400, 1000, 200}, 1, GRAY},
         {{300, 200, 400, 10}, 1, GRAY},
         {{250, 300, 100, 10}, 1, GRAY},
-        {{650, 300, 100, 10}, 1, GRAY}};
+        {{650, 300, 100, 10}, 1, GRAY},
+    };
 
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
 
@@ -86,7 +71,8 @@ int main(void)
         UpdateCameraCenterInsideMap,
         UpdateCameraCenterSmoothFollow,
         UpdateCameraEvenOutOnLanding,
-        UpdateCameraPlayerBoundsPush};
+        UpdateCameraPlayerBoundsPush,
+    };
 
     int cameraOption = 0;
     int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
@@ -96,7 +82,8 @@ int main(void)
         "Follow player center, but clamp to map edges",
         "Follow player center; smoothed",
         "Follow player center horizontally; update player center vertically after landing",
-        "Player push camera on getting too close to screen edge"};
+        "Player push camera on getting too close to screen edge",
+    };
 
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
