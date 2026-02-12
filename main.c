@@ -15,16 +15,17 @@ int main(void)
     Rectangle tiles[TILE_AMOUNT] = {0};
 
     char *level_map[] = {
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "XX                                    XX",
-        "XX                                    XX",
-        "XX                                    XX",
-        "XX  P                                 XX",
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "                                                                                    ",
+        "                                                                                    ",
+        "                                                                                    ",
+        " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
+        " XX P                        XX                          XX                         ",
+        " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
+        " XXXX       XX               XXXX       XX               XXXX       XX              ",
+        " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
+        "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
+        "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
+        "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
     };
     int level_rows = sizeof(level_map) / sizeof(level_map[0]);
     int level_cols = strlen(level_map[0]);
