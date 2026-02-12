@@ -1,8 +1,19 @@
 #include "string.h"
 #include "raylib.h"
 
+#define GRAVITY 4
+
 #define TILE_SIZE 64
 #define TILE_AMOUNT 1000
+
+#define PLAYER_SPEED 12
+#define PLAYER_JUMP_POWER 60
+
+typedef struct Player
+{
+    Vector2 position;
+    int velocity
+} Player;
 
 int main(void)
 {
@@ -11,15 +22,17 @@ int main(void)
 
     InitWindow(screen_width, screen_height, "Palm Tree Island");
 
-    Rectangle player = {0};
+    Player player = {0};
+    player.velocity = 0;
+
     Rectangle tiles[TILE_AMOUNT] = {0};
 
     char *level_map[] = {
-        "                                                                                    ",
+        "    P                                                                               ",
         "                                                                                    ",
         "                                                                                    ",
         " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
-        " XX P                        XX                          XX                         ",
+        " XX                          XX                          XX                         ",
         " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
         " XXXX       XX               XXXX       XX               XXXX       XX              ",
         " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
@@ -27,6 +40,7 @@ int main(void)
         "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
         "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
     };
+
     int level_rows = sizeof(level_map) / sizeof(level_map[0]);
     int level_cols = strlen(level_map[0]);
 
@@ -50,10 +64,8 @@ int main(void)
 
             else if (level_map[row][col] == 'P')
             {
-                player.width = TILE_SIZE / 2;
-                player.height = TILE_SIZE;
-                player.x = x_pos;
-                player.y = y_pos;
+                player.position.x = x_pos;
+                player.position.y = y_pos;
             }
         }
     }
@@ -67,9 +79,19 @@ int main(void)
         ClearBackground(DARKGRAY);
 
         for (int i = 0; i < TILE_AMOUNT; i++)
+        {
             DrawRectangleRec(tiles[i], LIGHTGRAY);
+        }
 
-        DrawRectangleRec(player, BLUE);
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            player.velocity = -PLAYER_JUMP_POWER;
+        }
+
+        player.velocity += GRAVITY;
+        player.position.y += player.velocity;
+
+        DrawRectangle(player.position.x, player.position.y, TILE_SIZE / 2, TILE_SIZE, BLUE);
 
         EndDrawing();
     }
