@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#define G 400
+#define GRAVITY 400
 #define PLAYER_JUMP_SPD 350.0f
 #define PLAYER_HOR_SPD 200.0f
 
@@ -188,7 +188,7 @@ void UpdatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float d
     if (!hitObstacle)
     {
         player->position.y += player->speed * delta;
-        player->speed += G * delta;
+        player->speed += GRAVITY * delta;
         player->canJump = false;
     }
     else
