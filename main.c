@@ -27,18 +27,26 @@ int main(void)
 
     Rectangle tiles[TILE_AMOUNT] = {0};
 
+    // char *level_map[] = {
+    //     "    P                                                                               ",
+    //     "                                                                                    ",
+    //     "                                                                                    ",
+    //     " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
+    //     " XX                          XX                          XX                         ",
+    //     " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
+    //     " XXXX       XX               XXXX       XX               XXXX       XX              ",
+    //     " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
+    //     "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
+    //     "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
+    //     "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
+    // };
+
     char *level_map[] = {
-        "    P                                                                               ",
+        "  P                                                                                 ",
         "                                                                                    ",
         "                                                                                    ",
-        " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
-        " XX                          XX                          XX                         ",
-        " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
-        " XXXX       XX               XXXX       XX               XXXX       XX              ",
-        " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
-        "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
-        "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
-        "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
+        "                                                                                    ",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     };
 
     int level_rows = sizeof(level_map) / sizeof(level_map[0]);
