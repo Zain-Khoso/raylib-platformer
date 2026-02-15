@@ -40,8 +40,8 @@ const char *level_map[] = {
 // Player Structure
 typedef struct Player
 {
+    Vector2 velocity;
     Rectangle rect;
-    int velocity;
     Color color;
 } Player;
 
@@ -63,7 +63,10 @@ int main(void)
             .x = 0,
             .y = 0,
         },
-        .velocity = 0,
+        .velocity = {
+            .x = 0,
+            .y = 0,
+        },
         .color = BLUE,
     };
 
@@ -78,23 +81,28 @@ int main(void)
     while (!WindowShouldClose())
     {
         // Player movement
-        player.velocity += GRAVITY;
-        player.rect.y += player.velocity;
-
         if (IsKeyPressed(KEY_SPACE))
         {
-            player.velocity = -PLAYER_JUMP_POWER;
+            player.velocity.y = -PLAYER_JUMP_POWER;
+        }
+        else
+        {
+
+            player.velocity.y += GRAVITY;
         }
 
         if (IsKeyDown(KEY_LEFT))
         {
-            player.rect.x -= PLAYER_SPEED;
+            player.velocity.x = -PLAYER_SPEED;
         }
 
         if (IsKeyDown(KEY_RIGHT))
         {
-            player.rect.x += PLAYER_SPEED;
+            player.velocity.x = PLAYER_SPEED;
         }
+
+        player.rect.y += player.velocity.y;
+        player.rect.x += player.velocity.x;
 
         BeginDrawing();
 
@@ -108,16 +116,42 @@ int main(void)
 
             if (is_colliding)
             {
+                int player_width = player.rect.width;
+                int player_height = player.rect.height;
 
-                if ((player.velocity < 0) && (player.rect.y < (ptr->rect.y + TILE_SIZE)))
+                int player_top = player.rect.y;
+                int player_bottom = player.rect.y + player_height;
+                int player_left = player.rect.x;
+                int player_right = player.rect.x + player_width;
+
+                int tile_top = ptr->rect.y;
+                int tile_bottom = ptr->rect.y + TILE_SIZE;
+                int tile_left = ptr->rect.x;
+                int tile_right = ptr->rect.x + TILE_SIZE;
+
+                bool jumping = player.velocity.y < 0;
+                bool moving_left = player.velocity.x < 0;
+                bool moving_right = player.velocity.x > 0;
+
+                if (jumping && (player_top < tile_bottom))
                 {
-                    player.rect.y = (ptr->rect.y + TILE_SIZE);
+                    player.rect.y = tile_bottom;
                 }
 
-                if ((player.velocity >= 0) && ((player.rect.y + TILE_SIZE) > ptr->rect.y))
+                if (!jumping && (player_bottom > tile_top))
                 {
-                    player.velocity = 0;
-                    player.rect.y = (ptr->rect.y - TILE_SIZE);
+                    player.velocity.y = 0;
+                    player.rect.y = tile_top - player_height;
+                }
+
+                if (moving_left && (player_left < tile_right))
+                {
+                    player.rect.x = tile_right;
+                }
+
+                if (moving_right && (player_right > tile_left))
+                {
+                    player.rect.x = tile_left - player_width;
                 }
             }
 
