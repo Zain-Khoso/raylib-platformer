@@ -17,6 +17,20 @@ typedef struct TileNode
     struct TileNode *next;
 } TileNode;
 
+const char *level_map[] = {
+    "    P                                                                               ",
+    "                                                                                    ",
+    "                                                                                    ",
+    " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
+    " XX                          XX                          XX                         ",
+    " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
+    " XXXX       XX               XXXX       XX               XXXX       XX              ",
+    " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
+    "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
+    "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
+    "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
+};
+
 // Player
 #define PLAYER_SPEED 12
 #define PLAYER_JUMP_POWER 20
@@ -27,6 +41,9 @@ typedef struct Player
     Vector2 position;
     int velocity;
 } Player;
+
+// Function Prototypes
+void create_sprites(TileNode **list_ptr, Player *player);
 
 int main(void)
 {
@@ -45,61 +62,7 @@ int main(void)
     // Loading terrain
     TileNode *tile_ptr = NULL;
 
-    char *level_map[] = {
-        "    P                                                                               ",
-        "                                                                                    ",
-        "                                                                                    ",
-        " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
-        " XX                          XX                          XX                         ",
-        " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
-        " XXXX       XX               XXXX       XX               XXXX       XX              ",
-        " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
-        "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
-        "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
-        "XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  XXXXXXXX  XXXXXX  XX  XXXX  ",
-    };
-
-    int level_rows = sizeof(level_map) / sizeof(level_map[0]);
-    int level_cols = strlen(level_map[0]);
-
-    for (int row = 0; row < level_rows; row++)
-    {
-        for (int col = 0; col < level_cols; col++)
-        {
-            int x_pos = col * TILE_SIZE;
-            int y_pos = row * TILE_SIZE;
-
-            if (level_map[row][col] == 'X')
-            {
-                // Allocating memory for a new node
-                TileNode *new_node = malloc(sizeof(TileNode));
-
-                // Setting up the new node
-                new_node->rect = (Rectangle){
-                    .width = TILE_SIZE,
-                    .height = TILE_SIZE,
-                    .x = x_pos,
-                    .y = y_pos,
-                };
-                new_node->color = LIGHTGRAY;
-
-                // Prepending this new tile node to the tile linked list
-                new_node->next = tile_ptr;
-                tile_ptr = new_node;
-            }
-
-            else if (level_map[row][col] == 'P')
-            {
-                player.position.x = x_pos;
-                player.position.y = y_pos;
-            }
-
-            else
-            {
-                continue;
-            }
-        }
-    }
+    create_sprites(&tile_ptr, &player);
 
     // Redering
     SetTargetFPS(60);
@@ -133,4 +96,49 @@ int main(void)
     CloseWindow();
 
     return 0;
+}
+
+void create_sprites(TileNode **list_ptr, Player *player)
+{
+    int level_rows = sizeof(level_map) / sizeof(level_map[0]);
+    int level_cols = strlen(level_map[0]);
+
+    for (int row = 0; row < level_rows; row++)
+    {
+        for (int col = 0; col < level_cols; col++)
+        {
+            int x_pos = col * TILE_SIZE;
+            int y_pos = row * TILE_SIZE;
+
+            if (level_map[row][col] == 'X')
+            {
+                // Allocating memory for a new node
+                TileNode *new_node = malloc(sizeof(TileNode));
+
+                // Setting up the new node
+                new_node->rect = (Rectangle){
+                    .width = TILE_SIZE,
+                    .height = TILE_SIZE,
+                    .x = x_pos,
+                    .y = y_pos,
+                };
+                new_node->color = LIGHTGRAY;
+
+                // Prepending this new tile node to the given linked list
+                new_node->next = *list_ptr;
+                *list_ptr = new_node;
+            }
+
+            else if (level_map[row][col] == 'P')
+            {
+                player->position.x = x_pos;
+                player->position.y = y_pos;
+            }
+
+            else
+            {
+                continue;
+            }
+        }
+    }
 }
