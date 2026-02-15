@@ -1,3 +1,4 @@
+#include "stdlib.h"
 #include "string.h"
 #include "raylib.h"
 
@@ -8,7 +9,13 @@
 
 // Terrain
 #define TILE_SIZE 64
-#define TILE_AMOUNT 1000
+
+typedef struct TileNode
+{
+    Rectangle rect;
+    Color color;
+    struct TileNode *next;
+} TileNode;
 
 // Player
 #define PLAYER_SPEED 12
@@ -36,7 +43,7 @@ int main(void)
     player.velocity = 0;
 
     // Loading terrain
-    Rectangle tiles[TILE_AMOUNT] = {0};
+    TileNode *tile_ptr = NULL;
 
     char *level_map[] = {
         "    P                                                                               ",
@@ -64,19 +71,32 @@ int main(void)
 
             if (level_map[row][col] == 'X')
             {
-                Rectangle tile = {0};
+                // Allocating memory for a new node
+                TileNode *new_node = malloc(sizeof(TileNode));
 
-                tile.width = TILE_SIZE;
-                tile.height = TILE_SIZE;
-                tile.x = x_pos;
-                tile.y = y_pos;
-                tiles[(row * level_cols) + col] = tile;
+                // Setting up the new node
+                new_node->rect = (Rectangle){
+                    .width = TILE_SIZE,
+                    .height = TILE_SIZE,
+                    .x = x_pos,
+                    .y = y_pos,
+                };
+                new_node->color = LIGHTGRAY;
+
+                // Prepending this new tile node to the tile linked list
+                new_node->next = tile_ptr;
+                tile_ptr = new_node;
             }
 
             else if (level_map[row][col] == 'P')
             {
                 player.position.x = x_pos;
                 player.position.y = y_pos;
+            }
+
+            else
+            {
+                continue;
             }
         }
     }
@@ -91,9 +111,9 @@ int main(void)
         ClearBackground(DARKGRAY);
 
         // Terrain
-        for (int i = 0; i < TILE_AMOUNT; i++)
+        for (TileNode *ptr = tile_ptr; ptr != NULL; ptr = ptr->next)
         {
-            DrawRectangleRec(tiles[i], LIGHTGRAY);
+            DrawRectangleRec(ptr->rect, ptr->color);
         }
 
         if (IsKeyPressed(KEY_SPACE))
