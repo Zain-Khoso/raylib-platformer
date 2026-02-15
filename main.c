@@ -20,13 +20,13 @@ typedef struct TileNode
 } TileNode;
 
 const char *level_map[] = {
-    "    P                                                                               ",
+    "                                                                                    ",
     "                                                                                    ",
     "                                                                                    ",
     " XX    XXX            XX     XX    XXX            XX     XX    XXX            XX    ",
     " XX                          XX                          XX                         ",
     " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
-    " XXXX       XX               XXXX       XX               XXXX       XX              ",
+    " XXXX  P    XX               XXXX       XX               XXXX       XX              ",
     " XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX     XX    X  XXXX    XX  XX    ",
     "       X  XXXX    XX  XXX          X  XXXX    XX  XXX          X  XXXX    XX  XXX   ",
     "    XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX      XXXX  XXXXXX  XX  XXXX  ",
@@ -77,6 +77,10 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        // Player movement
+        player.velocity += GRAVITY;
+        player.rect.y += player.velocity;
+
         BeginDrawing();
 
         ClearBackground(DARKGRAY);
@@ -84,6 +88,25 @@ int main(void)
         // Terrain
         for (TileNode *ptr = tile_ptr; ptr != NULL; ptr = ptr->next)
         {
+            // Collissions
+            bool is_colliding = CheckCollisionRecs(player.rect, ptr->rect);
+
+            if (is_colliding)
+            {
+
+                if ((player.velocity < 0) && (player.rect.y < (ptr->rect.y + TILE_SIZE)))
+                {
+                    player.rect.y = (ptr->rect.y + TILE_SIZE);
+                }
+
+                if ((player.velocity >= 0) && ((player.rect.y + TILE_SIZE) > ptr->rect.y))
+                {
+                    player.velocity = 0;
+                    player.rect.y = (ptr->rect.y - TILE_SIZE);
+                }
+            }
+
+            // Rendering
             DrawRectangleRec(ptr->rect, ptr->color);
         }
 
@@ -93,9 +116,6 @@ int main(void)
         }
 
         // Player
-        player.velocity += GRAVITY;
-        player.rect.y += player.velocity;
-
         DrawRectangleRec(player.rect, player.color);
 
         EndDrawing();
