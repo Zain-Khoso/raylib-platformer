@@ -1,9 +1,11 @@
-#include "stdlib.h"
-#include "string.h"
-#include "raylib.h"
+#include <stdlib.h>
+#include <string.h>
+#include <raylib.h>
 
 // General
 #define TITLE "Palm Tree Island"
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 700
 #define FPS 60
 #define GRAVITY 1
 
@@ -48,12 +50,9 @@ void create_sprites(TileNode **list_ptr, Player *player);
 int main(void)
 {
     // Window setup
-    InitWindow(0, 0, TITLE);
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE);
 
-    const int screen_width = GetScreenWidth();
-    const int screen_height = GetScreenHeight();
-
-    SetWindowSize(screen_width, screen_height);
+    ToggleFullscreen();
 
     // Loading player
     Player player = {0};
