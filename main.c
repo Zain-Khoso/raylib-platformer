@@ -81,6 +81,21 @@ int main(void)
         player.velocity += GRAVITY;
         player.rect.y += player.velocity;
 
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            player.velocity = -PLAYER_JUMP_POWER;
+        }
+
+        if (IsKeyDown(KEY_LEFT))
+        {
+            player.rect.x -= PLAYER_SPEED;
+        }
+
+        if (IsKeyDown(KEY_RIGHT))
+        {
+            player.rect.x += PLAYER_SPEED;
+        }
+
         BeginDrawing();
 
         ClearBackground(DARKGRAY);
@@ -108,11 +123,6 @@ int main(void)
 
             // Rendering
             DrawRectangleRec(ptr->rect, ptr->color);
-        }
-
-        if (IsKeyPressed(KEY_SPACE))
-        {
-            player.velocity = -PLAYER_JUMP_POWER;
         }
 
         // Player
