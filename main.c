@@ -198,7 +198,7 @@ void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
         {
             if (player->velocity.x < 0)
             {
-                player->rect.x = tile->rect.x + TILE_SIZE;
+                player->rect.x = tile->rect.x + tile->rect.width;
             }
 
             else if (player->velocity.x > 0)
@@ -234,7 +234,7 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
             }
             else if (player->velocity.y < 0)
             {
-                player->rect.y = tile->rect.y + TILE_SIZE;
+                player->rect.y = tile->rect.y + tile->rect.width;
                 player->velocity.y = 0;
             }
         }
