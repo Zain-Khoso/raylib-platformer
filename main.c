@@ -48,6 +48,7 @@ typedef struct Player
 
 // Function Prototypes
 void create_sprites(TileNode **list_ptr, Player *player);
+void delete_sprites(TileNode **list_ptr);
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
 
@@ -104,6 +105,8 @@ int main(void)
         EndDrawing();
     }
 
+    delete_sprites(&tile_ptr);
+
     CloseWindow();
 
     return 0;
@@ -152,6 +155,22 @@ void create_sprites(TileNode **list_ptr, Player *player)
             }
         }
     }
+}
+
+void delete_sprites(TileNode **list_ptr)
+{
+    TileNode *current = *list_ptr;
+
+    while (current != NULL)
+    {
+        TileNode *next_node = current->next;
+
+        free(current);
+
+        current = next_node;
+    }
+
+    *list_ptr = NULL;
 }
 
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
