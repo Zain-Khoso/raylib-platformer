@@ -47,8 +47,10 @@ typedef struct Player
 } Player;
 
 // Function Prototypes
-void create_sprites(TileNode **list_ptr, Player *player);
+TileNode *create_sprites(Player *player);
 void delete_sprites(TileNode **list_ptr);
+
+Player create_player();
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
 
@@ -60,25 +62,10 @@ int main(void)
     ToggleFullscreen();
 
     // Loading player
-    Player player = {
-        .rect = {
-            .width = TILE_SIZE / 2,
-            .height = TILE_SIZE,
-            .x = 0,
-            .y = 0,
-        },
-        .velocity = {
-            .x = 0,
-            .y = 0,
-        },
-        .color = BLUE,
-        .on_ground = false,
-    };
+    Player player = create_player();
 
     // Loading terrain
-    TileNode *tile_ptr = NULL;
-
-    create_sprites(&tile_ptr, &player);
+    TileNode *tile_ptr = create_sprites(&player);
 
     SetTargetFPS(60);
 
@@ -112,8 +99,10 @@ int main(void)
     return 0;
 }
 
-void create_sprites(TileNode **list_ptr, Player *player)
+TileNode *create_sprites(Player *player)
 {
+    TileNode *list_ptr = NULL;
+
     int level_rows = sizeof(level_map) / sizeof(level_map[0]);
     int level_cols = strlen(level_map[0]);
 
@@ -139,8 +128,8 @@ void create_sprites(TileNode **list_ptr, Player *player)
                 new_node->color = LIGHTGRAY;
 
                 // Prepending this new tile node to the given linked list
-                new_node->next = *list_ptr;
-                *list_ptr = new_node;
+                new_node->next = list_ptr;
+                list_ptr = new_node;
             }
 
             else if (level_map[row][col] == 'P')
@@ -155,6 +144,8 @@ void create_sprites(TileNode **list_ptr, Player *player)
             }
         }
     }
+
+    return list_ptr;
 }
 
 void delete_sprites(TileNode **list_ptr)
@@ -171,6 +162,26 @@ void delete_sprites(TileNode **list_ptr)
     }
 
     *list_ptr = NULL;
+}
+
+Player create_player()
+{
+    Player player = {
+        .rect = {
+            .width = TILE_SIZE / 2,
+            .height = TILE_SIZE,
+            .x = 0,
+            .y = 0,
+        },
+        .velocity = {
+            .x = 0,
+            .y = 0,
+        },
+        .color = BLUE,
+        .on_ground = false,
+    };
+
+    return player;
 }
 
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
