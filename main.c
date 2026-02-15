@@ -47,6 +47,7 @@ typedef struct Player
 
 // Function Prototypes
 void create_sprites(TileNode **list_ptr, Player *player);
+void player_movement(Player *player);
 
 int main(void)
 {
@@ -80,29 +81,7 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        // Player movement
-        if (IsKeyPressed(KEY_SPACE))
-        {
-            player.velocity.y = -PLAYER_JUMP_POWER;
-        }
-        else
-        {
-
-            player.velocity.y += GRAVITY;
-        }
-
-        if (IsKeyDown(KEY_LEFT))
-        {
-            player.velocity.x = -PLAYER_SPEED;
-        }
-
-        if (IsKeyDown(KEY_RIGHT))
-        {
-            player.velocity.x = PLAYER_SPEED;
-        }
-
-        player.rect.y += player.velocity.y;
-        player.rect.x += player.velocity.x;
+        player_movement(&player);
 
         BeginDrawing();
 
@@ -213,4 +192,32 @@ void create_sprites(TileNode **list_ptr, Player *player)
             }
         }
     }
+}
+
+void player_movement(Player *player)
+{
+    bool jumping = player->velocity.y < 0;
+
+    if (!jumping && IsKeyPressed(KEY_SPACE))
+    {
+        player->velocity.y = -PLAYER_JUMP_POWER;
+    }
+
+    if (IsKeyDown(KEY_LEFT))
+    {
+        player->velocity.x = -PLAYER_SPEED;
+    }
+    else if (IsKeyDown(KEY_RIGHT))
+    {
+        player->velocity.x = PLAYER_SPEED;
+    }
+    else
+    {
+        player->velocity.x = 0;
+    }
+
+    player->velocity.y += GRAVITY;
+
+    player->rect.y += player->velocity.y;
+    player->rect.x += player->velocity.x;
 }
