@@ -54,6 +54,8 @@ Player create_player();
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
 
+Camera2D create_camera(Player *player);
+
 int main(void)
 {
     // Window setup
@@ -66,6 +68,9 @@ int main(void)
 
     // Loading terrain
     TileNode *tile_ptr = create_sprites(&player);
+
+    // Camera setup
+    Camera2D camera = create_camera(&player);
 
     SetTargetFPS(60);
 
@@ -80,6 +85,8 @@ int main(void)
 
         ClearBackground(DARKGRAY);
 
+        BeginMode2D(camera);
+
         // Terrain
         for (TileNode *ptr = tile_ptr; ptr != NULL; ptr = ptr->next)
         {
@@ -88,6 +95,8 @@ int main(void)
 
         // Player
         DrawRectangleRec(player.rect, player.color);
+
+        EndMode2D();
 
         EndDrawing();
     }
@@ -250,4 +259,22 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
             }
         }
     }
+}
+
+Camera2D create_camera(Player *player)
+{
+    Camera2D camera = {
+        .target = {
+            .x = 0,
+            .y = 0,
+        },
+        .offset = {
+            .x = player->rect.x,
+            .y = player->rect.y,
+        },
+        .rotation = 0.0f,
+        .zoom = 1.0f,
+    };
+
+    return camera;
 }
