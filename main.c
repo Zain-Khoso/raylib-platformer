@@ -1,11 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <raylib.h>
+#include <stdio.h>
 
 // General
 #define TITLE "Palm Tree Island"
-#define SCREEN_WIDTH 1200
-#define SCREEN_HEIGHT 700
 #define FPS 60
 #define GRAVITY 1
 
@@ -55,11 +54,12 @@ void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
 
 Camera2D create_camera(Player *player);
+void update_camera(Camera2D *camera, Player *player);
 
 int main(void)
 {
     // Window setup
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, TITLE);
+    InitWindow(GetScreenWidth(), GetScreenHeight(), TITLE);
 
     ToggleFullscreen();
 
@@ -79,6 +79,8 @@ int main(void)
         // Physics
         player_horizontal_movement_collision(&player, tile_ptr);
         player_vertical_movement_collision(&player, tile_ptr);
+
+        update_camera(&camera, &player);
 
         // Rendering
         BeginDrawing();
@@ -269,12 +271,25 @@ Camera2D create_camera(Player *player)
             .y = 0,
         },
         .offset = {
-            .x = player->rect.x,
-            .y = player->rect.y,
+            .x = 0,
+            .y = 0,
         },
         .rotation = 0.0f,
         .zoom = 1.0f,
     };
 
     return camera;
+}
+
+void update_camera(Camera2D *camera, Player *player)
+{
+    int rows_num = (sizeof(level_map) / sizeof(level_map[0]));
+
+    // Target
+    camera->target.x = player->rect.x;
+    camera->target.y = player->rect.y;
+
+    // Offset
+    camera->offset.x = GetScreenWidth() / 3;
+    camera->offset.y = (GetScreenHeight() - (rows_num * TILE_SIZE)) + player->rect.y;
 }
