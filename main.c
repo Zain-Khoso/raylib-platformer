@@ -40,8 +40,9 @@ const char *level_map[] = {
 // Player Structure
 typedef struct Player
 {
-    Vector2 position;
+    Rectangle rect;
     int velocity;
+    Color color;
 } Player;
 
 // Function Prototypes
@@ -55,8 +56,16 @@ int main(void)
     ToggleFullscreen();
 
     // Loading player
-    Player player = {0};
-    player.velocity = 0;
+    Player player = {
+        .rect = {
+            .width = TILE_SIZE / 2,
+            .height = TILE_SIZE,
+            .x = 0,
+            .y = 0,
+        },
+        .velocity = 0,
+        .color = BLUE,
+    };
 
     // Loading terrain
     TileNode *tile_ptr = NULL;
@@ -85,9 +94,9 @@ int main(void)
 
         // Player
         player.velocity += GRAVITY;
-        player.position.y += player.velocity;
+        player.rect.y += player.velocity;
 
-        DrawRectangle(player.position.x, player.position.y, TILE_SIZE / 2, TILE_SIZE, BLUE);
+        DrawRectangleRec(player.rect, player.color);
 
         EndDrawing();
     }
@@ -130,8 +139,8 @@ void create_sprites(TileNode **list_ptr, Player *player)
 
             else if (level_map[row][col] == 'P')
             {
-                player->position.x = x_pos;
-                player->position.y = y_pos;
+                player->rect.x = x_pos;
+                player->rect.y = y_pos;
             }
 
             else
