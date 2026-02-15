@@ -48,6 +48,7 @@ typedef struct Player
 // Function Prototypes
 void create_sprites(TileNode **list_ptr, Player *player);
 void player_movement(Player *player);
+void player_collisions(Player *player, TileNode *tile);
 
 int main(void)
 {
@@ -91,47 +92,9 @@ int main(void)
         for (TileNode *ptr = tile_ptr; ptr != NULL; ptr = ptr->next)
         {
             // Collissions
-            bool is_colliding = CheckCollisionRecs(player.rect, ptr->rect);
-
-            if (is_colliding)
+            if (CheckCollisionRecs(player.rect, ptr->rect))
             {
-                int player_width = player.rect.width;
-                int player_height = player.rect.height;
-
-                int player_top = player.rect.y;
-                int player_bottom = player.rect.y + player_height;
-                int player_left = player.rect.x;
-                int player_right = player.rect.x + player_width;
-
-                int tile_top = ptr->rect.y;
-                int tile_bottom = ptr->rect.y + TILE_SIZE;
-                int tile_left = ptr->rect.x;
-                int tile_right = ptr->rect.x + TILE_SIZE;
-
-                bool jumping = player.velocity.y < 0;
-                bool moving_left = player.velocity.x < 0;
-                bool moving_right = player.velocity.x > 0;
-
-                if (jumping && (player_top < tile_bottom))
-                {
-                    player.rect.y = tile_bottom;
-                }
-
-                if (!jumping && (player_bottom > tile_top))
-                {
-                    player.velocity.y = 0;
-                    player.rect.y = tile_top - player_height;
-                }
-
-                if (moving_left && (player_left < tile_right))
-                {
-                    player.rect.x = tile_right;
-                }
-
-                if (moving_right && (player_right > tile_left))
-                {
-                    player.rect.x = tile_left - player_width;
-                }
+                player_collisions(&player, ptr);
             }
 
             // Rendering
@@ -220,4 +183,45 @@ void player_movement(Player *player)
 
     player->rect.y += player->velocity.y;
     player->rect.x += player->velocity.x;
+}
+
+void player_collisions(Player *player, TileNode *tile)
+{
+    int player_width = player->rect.width;
+    int player_height = player->rect.height;
+
+    int player_top = player->rect.y;
+    int player_bottom = player->rect.y + player_height;
+    int player_left = player->rect.x;
+    int player_right = player->rect.x + player_width;
+
+    int tile_top = tile->rect.y;
+    int tile_bottom = tile->rect.y + TILE_SIZE;
+    int tile_left = tile->rect.x;
+    int tile_right = tile->rect.x + TILE_SIZE;
+
+    bool jumping = player->velocity.y < 0;
+    bool moving_left = player->velocity.x < 0;
+    bool moving_right = player->velocity.x > 0;
+
+    if (jumping && (player_top < tile_bottom))
+    {
+        player->rect.y = tile_bottom;
+    }
+
+    if (!jumping && (player_bottom > tile_top))
+    {
+        player->velocity.y = 0;
+        player->rect.y = tile_top - player_height;
+    }
+
+    if (moving_left && (player_left < tile_right))
+    {
+        player->rect.x = tile_right;
+    }
+
+    if (moving_right && (player_right > tile_left))
+    {
+        player->rect.x = tile_left - player_width;
+    }
 }
