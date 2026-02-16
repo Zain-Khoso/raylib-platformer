@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <raylib.h>
-#include <stdio.h>
 
 // General
 #define TITLE "Palm Tree Island"
