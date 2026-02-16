@@ -266,12 +266,12 @@ Camera2D create_camera(Player *player)
 {
     Camera2D camera = {
         .target = {
-            .x = 0,
-            .y = 0,
+            .x = player->rect.x,
+            .y = player->rect.y,
         },
         .offset = {
-            .x = 0,
-            .y = 0,
+            .x = GetScreenWidth() / 2.0f,
+            .y = GetScreenHeight() / 2.0f,
         },
         .rotation = 0.0f,
         .zoom = 1.0f,
