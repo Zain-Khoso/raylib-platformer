@@ -1,36 +1,27 @@
 #ifndef PLAYER_H
 
 #define PLAYER_H
-#define PLAYER_FRAME_SPEED 0.5
+#define PLAYER_FRAME_SPEED 0.15f
 
 #include "shared.h"
 #include "tiles.h"
 
-typedef struct PlayerTextures
-{
-    Texture2D death[4];
-    Texture2D fall[1];
-    Texture2D ground[2];
-    Texture2D hit[4];
-    Texture2D idle[5];
-    Texture2D jump[3];
-    Texture2D run[6];
-} PlayerTextures;
-
 typedef struct Player
 {
     Vector2 velocity;
+    Vector2 texture_pos;
     Rectangle rect;
+    Color color;
 
     Texture2D texture;
-    PlayerTextures textures;
+    Texture2D textures[5];
 
-    char *animation;
     bool on_ground;
-    int frame;
+    float frame;
 } Player;
 
 Player create_player();
+void animate_player(Player *player);
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
 

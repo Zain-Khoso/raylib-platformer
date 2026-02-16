@@ -29,6 +29,8 @@ int main(void)
         player_horizontal_movement_collision(&player, sprites_ptr);
         player_vertical_movement_collision(&player, sprites_ptr);
 
+        animate_player(&player);
+
         // Camera work
         update_camera(&camera, &player);
 
@@ -46,7 +48,7 @@ int main(void)
         }
 
         // Player
-        DrawTexture(player.texture, player.rect.x, player.rect.y, WHITE);
+        DrawTextureV(player.texture, player.texture_pos, player.color);
 
         EndMode2D();
 

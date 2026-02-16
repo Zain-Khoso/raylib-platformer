@@ -5,27 +5,69 @@
 // Function to initial create the player
 Player create_player()
 {
-    Image image = LoadImage("./assets/textures/character/no_sword/idle/2.png");
-    ImageAlphaCrop(&image, 0);
+    Image image_0 = LoadImage("./assets/textures/character/no_sword/idle/0.png");
+    ImageAlphaCrop(&image_0, 0);
+    Image image_1 = LoadImage("./assets/textures/character/no_sword/idle/1.png");
+    ImageAlphaCrop(&image_1, 0);
+    Image image_2 = LoadImage("./assets/textures/character/no_sword/idle/2.png");
+    ImageAlphaCrop(&image_2, 0);
+    Image image_3 = LoadImage("./assets/textures/character/no_sword/idle/3.png");
+    ImageAlphaCrop(&image_3, 0);
+    Image image_4 = LoadImage("./assets/textures/character/no_sword/idle/4.png");
+    ImageAlphaCrop(&image_4, 0);
 
-    Texture2D texture = LoadTextureFromImage(image);
+    Texture2D texture_0 = LoadTextureFromImage(image_0);
+    Texture2D texture_1 = LoadTextureFromImage(image_1);
+    Texture2D texture_2 = LoadTextureFromImage(image_2);
+    Texture2D texture_3 = LoadTextureFromImage(image_3);
+    Texture2D texture_4 = LoadTextureFromImage(image_4);
+
     Rectangle rect = {
-        .width = texture.width,
-        .height = texture.height,
+        .width = texture_0.width,
+        .height = texture_0.height,
         .x = 0,
         .y = 0,
     };
 
-    UnloadImage(image);
+    UnloadImage(image_0);
+    UnloadImage(image_1);
+    UnloadImage(image_2);
+    UnloadImage(image_3);
+    UnloadImage(image_4);
 
     return (Player){
-        .rect = rect,
         .velocity = {0, 0},
-        .on_ground = false,
+        .texture_pos = {rect.x, rect.y},
+        .rect = rect,
+        .color = WHITE,
 
-        .color = BLUE,
-        .texture = texture,
+        .textures = {
+            texture_0,
+            texture_1,
+            texture_2,
+            texture_3,
+            texture_4,
+        },
+
+        .on_ground = false,
+        .frame = 1.0f,
     };
+}
+
+// Function to animate the player
+void animate_player(Player *player)
+{
+    player->frame += PLAYER_FRAME_SPEED;
+
+    if (player->frame > 4.0f)
+    {
+        player->frame = 0.0f;
+    }
+
+    player->texture = player->textures[(int)player->frame];
+
+    player->texture_pos.x = player->rect.x + (player->rect.width - player->texture.width);
+    player->texture_pos.y = player->rect.y + (player->rect.height - player->texture.height);
 }
 
 // Function to handle player's horizontal movements and horizontal collisions
