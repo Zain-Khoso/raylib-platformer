@@ -46,7 +46,7 @@ int main(void)
         }
 
         // Player
-        DrawRectangleRec(player.rect, player.color);
+        DrawTexture(player.texture, player.rect.x, player.rect.y, WHITE);
 
         EndMode2D();
 

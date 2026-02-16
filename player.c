@@ -5,11 +5,27 @@
 // Function to initial create the player
 Player create_player()
 {
+    Image image = LoadImage("./assets/textures/character/no_sword/idle/2.png");
+    ImageAlphaCrop(&image, 0);
+
+    Texture2D texture = LoadTextureFromImage(image);
+    Rectangle rect = {
+        .width = texture.width,
+        .height = texture.height,
+        .x = 0,
+        .y = 0,
+    };
+
+    UnloadImage(image);
+
     return (Player){
-        .rect = {0, 0, TILE_SIZE / 2, TILE_SIZE},
+        .rect = rect,
         .velocity = {0, 0},
+        .on_ground = false,
+
         .color = BLUE,
-        .on_ground = false};
+        .texture = texture,
+    };
 }
 
 // Function to handle player's horizontal movements and horizontal collisions
