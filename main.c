@@ -282,13 +282,24 @@ Camera2D create_camera(Player *player)
 
 void update_camera(Camera2D *camera, Player *player)
 {
-    int rows_num = (sizeof(level_map) / sizeof(level_map[0]));
+    int map_width = strlen(level_map[0]) * TILE_SIZE;
+    int map_height = (sizeof(level_map) / sizeof(level_map[0])) * TILE_SIZE;
 
-    // Target
-    camera->target.x = player->rect.x;
-    camera->target.y = player->rect.y;
+    float delta = GetFrameTime();
+    float lerp_speed = 3.0f;
 
-    // Offset
-    camera->offset.x = GetScreenWidth() / 3;
-    camera->offset.y = (GetScreenHeight() - (rows_num * TILE_SIZE)) + player->rect.y;
+    camera->target.x += (player->rect.x - camera->target.x) * lerp_speed * delta;
+    camera->target.y += (player->rect.y - camera->target.y) * lerp_speed * delta;
+
+    // Far left
+    if (camera->target.x < camera->offset.x)
+        camera->target.x = camera->offset.x;
+
+    // Far right
+    if (camera->target.x > map_width - camera->offset.x)
+        camera->target.x = map_width - camera->offset.x;
+
+    // Far down
+    if (camera->target.y > map_height - camera->offset.y)
+        camera->target.y = map_height - camera->offset.y;
 }
