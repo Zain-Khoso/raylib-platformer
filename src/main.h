@@ -19,6 +19,38 @@
 extern const char *level_map[];
 
 // Custom data structures
+typedef struct AssetStore
+{
+    struct character
+    {
+        struct no_sword
+        {
+            Texture2D *death[4];
+            Texture2D *fall[1];
+            Texture2D *land[2];
+            Texture2D *hit[4];
+            Texture2D *idle[5];
+            Texture2D *jump[3];
+            Texture2D *run[6];
+        };
+        struct with_sword
+        {
+            Texture2D *fall[1];
+            Texture2D *land[2];
+            Texture2D *hit[4];
+            Texture2D *idle[5];
+            Texture2D *jump[3];
+            Texture2D *run[6];
+        };
+        struct paricles
+        {
+            Texture2D *land[5];
+            Texture2D *jump[6];
+            Texture2D *run[5];
+        };
+    };
+} AssetStore;
+
 typedef struct TileNode
 {
     Rectangle rect;
