@@ -80,7 +80,7 @@ void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
     else
         player->velocity.x = 0;
 
-    player->rect.x += player->velocity.x;
+    player->rect.x += player->velocity.x * GetFrameTime();
 
     for (TileNode *tile = list_ptr; tile != NULL; tile = tile->next)
     {
@@ -102,8 +102,9 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
         player->velocity.y = -PLAYER_JUMP_POWER;
         player->on_ground = false;
     }
+
     player->velocity.y += GRAVITY;
-    player->rect.y += player->velocity.y;
+    player->rect.y += player->velocity.y * GetFrameTime();
     player->on_ground = false;
 
     for (TileNode *tile = list_ptr; tile != NULL; tile = tile->next)

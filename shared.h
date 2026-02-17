@@ -5,9 +5,9 @@
 #include <raylib.h>
 
 #define TILE_SIZE 64
-#define GRAVITY 1
-#define PLAYER_SPEED 12
-#define PLAYER_JUMP_POWER 20
+#define GRAVITY 32.0f
+#define PLAYER_SPEED 256.0f
+#define PLAYER_JUMP_POWER 512.0f
 
 extern const char *level_map[];
 
