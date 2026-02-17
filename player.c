@@ -132,7 +132,8 @@ Camera2D create_camera(Player *player)
         .target = {player->rect.x, player->rect.y},
         .offset = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f},
         .rotation = 0.0f,
-        .zoom = 1.0f};
+        .zoom = 2.0f,
+    };
 }
 
 // Function to handle camera movement
@@ -146,10 +147,12 @@ void update_camera(Camera2D *camera, Player *player)
     camera->target.x += (player->rect.x - camera->target.x) * lerp_speed * delta;
     camera->target.y += (player->rect.y - camera->target.y) * lerp_speed * delta;
 
-    if (camera->target.x < camera->offset.x)
-        camera->target.x = camera->offset.x;
-    if (camera->target.x > map_width - camera->offset.x)
-        camera->target.x = map_width - camera->offset.x;
-    if (camera->target.y > map_height - camera->offset.y)
-        camera->target.y = map_height - camera->offset.y;
+    if (camera->target.x < (camera->offset.x / camera->zoom))
+        camera->target.x = (camera->offset.x / camera->zoom);
+
+    if (camera->target.x > map_width - (camera->offset.x / camera->zoom))
+        camera->target.x = map_width - (camera->offset.x / camera->zoom);
+
+    if (camera->target.y > map_height - (camera->offset.y / camera->zoom))
+        camera->target.y = map_height - (camera->offset.y / camera->zoom);
 }
