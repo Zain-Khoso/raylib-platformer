@@ -1,6 +1,4 @@
-#include <string.h>
-
-#include "player.h"
+#include "../main.h"
 
 // Function to initial create the player
 Player create_player()

@@ -1,8 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-
-#include "tiles.h"
-#include "player.h"
+#include "../main.h"
 
 const char *level_map[] = {
     "                                                                                    ",

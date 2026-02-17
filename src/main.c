@@ -1,11 +1,4 @@
-#include <stdlib.h>
-#include <raylib.h>
-
-#include "player.h"
-#include "tiles.h"
-
-#define TITLE "Palm Tree Island"
-#define FPS 60
+#include "main.h"
 
 int main(void)
 {
