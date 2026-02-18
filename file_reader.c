@@ -13,8 +13,18 @@ typedef struct
     char **data;
 } FileRead;
 
+typedef struct
+{
+    unsigned int erorr;
+    unsigned int rows;
+    char ***data;
+} CSVRead;
+
 FileRead *load_file(const char *path);
 void unload_file(FileRead *file);
+
+CSVRead *read_csv(const FileRead *file);
+void forget_csv(CSVRead *csv);
 
 int main()
 {
@@ -24,12 +34,20 @@ int main()
         return 1;
     }
 
-    for (size_t i = 0; i < file->lines; i++)
+    CSVRead *csv = read_csv(file);
+    unload_file(file);
+
+    for (size_t i = 0; i < csv->rows; i++)
     {
-        printf("%s", file->data[i]);
+        for (int j = 0; csv->data[i][j] != NULL; j++)
+            printf("%s\t\t", csv->data[i][j]);
+
+        printf("\n");
     }
 
-    unload_file(file);
+    forget_csv(csv);
+
+    return 0;
 }
 
 FileRead *load_file(const char *path)
@@ -129,4 +147,68 @@ void unload_file(FileRead *file)
 
     free(file->data);
     free(file);
+}
+
+CSVRead *read_csv(const FileRead *file)
+{
+    CSVRead *csv = malloc(sizeof(CSVRead));
+    csv->rows = file->lines;
+    csv->erorr = 0;
+    csv->data = malloc(sizeof(char **) * file->lines);
+
+    for (size_t i = 0; i < csv->rows; i++)
+    {
+        char *line = file->data[i];
+
+        char **row = malloc(sizeof(char *) * MORE_CHARS);
+        int col_index = 0;
+
+        char buffer[MORE_CHARS];
+        int char_count = 0;
+
+        for (size_t j = 0; j <= strlen(line); j++)
+        {
+            char c = line[j];
+
+            if (c == ',' || c == '\n' || c == '\0')
+            {
+                if (char_count > 0 || c == ',')
+                {
+                    buffer[char_count] = '\0';
+
+                    row[col_index] = malloc(char_count + 1);
+                    strcpy(row[col_index], buffer);
+
+                    col_index++;
+                    char_count = 0;
+                }
+
+                if (c == '\0' || c == '\n')
+                {
+                    break;
+                }
+
+                continue;
+            }
+
+            buffer[char_count++] = c;
+        }
+
+        csv->data[i] = realloc(row, sizeof(char *) * col_index);
+    }
+
+    return csv;
+};
+
+void forget_csv(CSVRead *csv)
+{
+    for (size_t i = 0; i < csv->rows; i++)
+    {
+        for (int j = 0; csv->data[i][j] != NULL; j++)
+            free(csv->data[i][j]);
+        free(csv->data[i]);
+    }
+
+    free(csv->data);
+    free(csv);
 }
