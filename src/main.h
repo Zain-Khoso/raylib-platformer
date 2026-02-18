@@ -1,13 +1,18 @@
 #pragma once
 
 // Header files
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <raylib.h>
+#include <stdbool.h>
 
 // Statically defined values
 #define TITLE "Palm Tree Island"
 #define FPS 60
+
+#define MORE_LINES 1024
+#define MORE_CHARS 1024
 
 #define TILE_SIZE 64
 
@@ -51,6 +56,20 @@ typedef struct AssetStore
     };
 } AssetStore;
 
+typedef struct
+{
+    unsigned int erorr;
+    unsigned int lines;
+    char **data;
+} FileRead;
+
+typedef struct
+{
+    unsigned int erorr;
+    unsigned int rows;
+    char ***data;
+} CSVRead;
+
 typedef struct TileNode
 {
     Rectangle rect;
@@ -71,6 +90,13 @@ typedef struct Player
     bool on_ground;
     float frame;
 } Player;
+
+// File reader prototypes
+FileRead *load_file(const char *path);
+void unload_file(FileRead *file);
+
+CSVRead *read_csv(const FileRead *file);
+void forget_csv(CSVRead *csv);
 
 // Player prototypes
 Player create_player();
