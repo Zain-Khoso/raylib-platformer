@@ -16,9 +16,6 @@
 
 #define TILE_SIZE 32
 
-#define GRAVITY 32.0f
-#define PLAYER_SPEED 256.0f
-#define PLAYER_JUMP_POWER 512.0f
 #define PLAYER_FRAME_SPEED 0.15f
 
 extern const char *level_map[];
@@ -56,15 +53,19 @@ typedef struct TileNode
 typedef struct Player
 {
     Vector2 velocity;
-    Vector2 texture_pos;
     Rectangle rect;
     Color color;
 
     Texture2D texture;
+    Vector2 texture_pos;
     TextureStore *textures;
-
-    bool on_ground;
     float frame;
+
+    float gravity;
+    float speed;
+    float jump_power;
+    char *status;
+    bool on_ground;
 } Player;
 
 // File reader prototypes

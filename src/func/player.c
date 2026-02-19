@@ -9,6 +9,10 @@ Player *create_player(TextureStore *texture_store)
     player->color = WHITE;
     player->frame = 0.0f;
     player->on_ground = false;
+    player->gravity = 32.0f;
+    player->speed = 256.0f;
+    player->jump_power = 512.0f;
+    player->status = "idle";
 
     player->textures = animation;
     player->texture = animation->frames[(int)player->frame];
@@ -52,9 +56,9 @@ void animate_player(Player *player)
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
 {
     if (IsKeyDown(KEY_LEFT))
-        player->velocity.x = -PLAYER_SPEED;
+        player->velocity.x = -player->speed;
     else if (IsKeyDown(KEY_RIGHT))
-        player->velocity.x = PLAYER_SPEED;
+        player->velocity.x = player->speed;
     else
         player->velocity.x = 0;
 
@@ -77,11 +81,11 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
 {
     if (player->on_ground && IsKeyPressed(KEY_SPACE))
     {
-        player->velocity.y = -PLAYER_JUMP_POWER;
+        player->velocity.y = -player->jump_power;
         player->on_ground = false;
     }
 
-    player->velocity.y += GRAVITY;
+    player->velocity.y += player->gravity;
     player->rect.y += player->velocity.y * GetFrameTime();
     player->on_ground = false;
 
