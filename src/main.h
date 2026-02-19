@@ -38,6 +38,14 @@ typedef struct
     char ***data;
 } CSVRead;
 
+typedef struct TextureStore
+{
+    char *type;
+    char *name;
+    unsigned int total_frames;
+    Texture2D *frames;
+} TextureStore;
+
 typedef struct TileNode
 {
     Rectangle rect;
@@ -65,6 +73,9 @@ void unload_file(FileRead *file);
 
 CSVRead *read_csv(const FileRead *file);
 void forget_csv(CSVRead *csv);
+
+// Asset manager prototypes
+TextureStore *load_textures();
 
 // Player prototypes
 Player create_player();
