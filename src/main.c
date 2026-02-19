@@ -11,24 +11,24 @@ int main(void)
     TextureStore *texture_store = load_textures();
 
     // Creating sprites
-    Player player = create_player();
-    TileNode *sprites_ptr = create_sprites(&player);
+    Player *player = create_player(texture_store);
+    TileNode *sprites_ptr = create_sprites(player);
 
     // Camera setup
-    Camera2D camera = create_camera(&player);
+    Camera2D camera = create_camera(player);
 
     SetTargetFPS(FPS);
 
     while (!WindowShouldClose())
     {
         // Player physics
-        player_horizontal_movement_collision(&player, sprites_ptr);
-        player_vertical_movement_collision(&player, sprites_ptr);
+        player_horizontal_movement_collision(player, sprites_ptr);
+        player_vertical_movement_collision(player, sprites_ptr);
 
-        animate_player(&player);
+        animate_player(player);
 
         // Camera work
-        update_camera(&camera, &player);
+        update_camera(&camera, player);
 
         // World rendering
         BeginDrawing();
@@ -44,7 +44,7 @@ int main(void)
         }
 
         // Player
-        DrawTextureV(player.texture, player.texture_pos, player.color);
+        DrawTextureV(player->texture, player->texture_pos, player->color);
 
         EndMode2D();
 

@@ -1,55 +1,29 @@
 #include "../main.h"
 
 // Function to initial create the player
-Player create_player()
+Player *create_player(TextureStore *texture_store)
 {
-    Image image_0 = LoadImage("./assets/textures/character/no_sword/idle/0.png");
-    ImageAlphaCrop(&image_0, 0);
-    Image image_1 = LoadImage("./assets/textures/character/no_sword/idle/1.png");
-    ImageAlphaCrop(&image_1, 0);
-    Image image_2 = LoadImage("./assets/textures/character/no_sword/idle/2.png");
-    ImageAlphaCrop(&image_2, 0);
-    Image image_3 = LoadImage("./assets/textures/character/no_sword/idle/3.png");
-    ImageAlphaCrop(&image_3, 0);
-    Image image_4 = LoadImage("./assets/textures/character/no_sword/idle/4.png");
-    ImageAlphaCrop(&image_4, 0);
+    TextureStore *animation = get_textures(texture_store, "character_no_sword_idle");
+    Player *player = calloc(sizeof(Player), 1);
 
-    Texture2D texture_0 = LoadTextureFromImage(image_0);
-    Texture2D texture_1 = LoadTextureFromImage(image_1);
-    Texture2D texture_2 = LoadTextureFromImage(image_2);
-    Texture2D texture_3 = LoadTextureFromImage(image_3);
-    Texture2D texture_4 = LoadTextureFromImage(image_4);
+    player->color = WHITE;
+    player->frame = 0.0f;
+    player->on_ground = false;
 
-    Rectangle rect = {
-        .width = texture_0.width,
-        .height = texture_0.height,
-        .x = 0,
-        .y = 0,
-    };
+    player->textures = animation;
+    player->texture = animation->frames[(int)player->frame];
+    player->texture_pos.x = 0;
+    player->texture_pos.y = 0;
 
-    UnloadImage(image_0);
-    UnloadImage(image_1);
-    UnloadImage(image_2);
-    UnloadImage(image_3);
-    UnloadImage(image_4);
+    player->rect.width = player->texture.width;
+    player->rect.height = player->texture.height;
+    player->rect.x = 0;
+    player->rect.y = 0;
 
-    return (Player){
-        .velocity = {0, 0},
-        .texture_pos = {rect.x, rect.y},
-        .rect = rect,
-        .color = WHITE,
+    player->velocity.x = 0;
+    player->velocity.y = 0;
 
-        .textures = {
-            texture_0,
-            texture_1,
-            texture_2,
-            texture_3,
-            texture_4,
-        },
-
-        .on_ground = false,
-        .frame = 1.0f,
-    };
+    return player;
 }
 
 // Function to animate the player
@@ -57,12 +31,12 @@ void animate_player(Player *player)
 {
     player->frame += PLAYER_FRAME_SPEED;
 
-    if (player->frame > 4.0f)
+    if (player->frame > player->textures->total_frames)
     {
         player->frame = 0.0f;
     }
 
-    player->texture = player->textures[(int)player->frame];
+    player->texture = player->textures->frames[(int)player->frame];
 
     player->texture_pos.x = player->rect.x + (player->rect.width - player->texture.width);
     player->texture_pos.y = player->rect.y + (player->rect.height - player->texture.height);

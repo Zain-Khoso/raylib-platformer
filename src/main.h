@@ -61,7 +61,7 @@ typedef struct Player
     Color color;
 
     Texture2D texture;
-    Texture2D textures[5];
+    TextureStore *textures;
 
     bool on_ground;
     float frame;
@@ -80,7 +80,7 @@ void unload_textures(TextureStore *texture_store);
 TextureStore *get_textures(TextureStore *texture_store, const char *query);
 
 // Player prototypes
-Player create_player();
+Player *create_player(TextureStore *texture_store);
 void animate_player(Player *player);
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
