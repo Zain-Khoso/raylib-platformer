@@ -83,9 +83,10 @@ TextureStore *get_textures(TextureStore *texture_store, const char *query);
 // Player prototypes
 Player *create_player(TextureStore *texture_store);
 void delete_player(Player *player);
-void animate_player(Player *player);
+void animate_player(TextureStore *texture_store, Player *player);
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);
+TextureStore *get_animation(TextureStore *texture_store, Player *player);
 
 // Camera prototypes
 Camera2D create_camera(Player *player);

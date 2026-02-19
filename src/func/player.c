@@ -37,8 +37,9 @@ void delete_player(Player *player)
 }
 
 // Function to animate the player
-void animate_player(Player *player)
+void animate_player(TextureStore *texture_store, Player *player)
 {
+    player->textures = get_animation(texture_store, player);
     player->frame += PLAYER_FRAME_SPEED;
 
     if (player->frame > player->textures->total_frames)
@@ -105,6 +106,38 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
                 player->velocity.y = 0;
             }
         }
+    }
+}
+
+// Function to get animation from texture_store
+// According to the player->status value
+TextureStore *get_animation(TextureStore *texture_store, Player *player)
+{
+    char *status = player->status;
+
+    if (strcmp(status, "jump") == 0)
+    {
+        return get_textures(texture_store, "character_no_sword_jump");
+    }
+    else if (strcmp(status, "fall") == 0)
+    {
+        return get_textures(texture_store, "character_no_sword_fall");
+    }
+    else if (strcmp(status, "land") == 0)
+    {
+        return get_textures(texture_store, "character_no_sword_land");
+    }
+    else if (strcmp(status, "run") == 0)
+    {
+        return get_textures(texture_store, "character_no_sword_run");
+    }
+    else if (strcmp(status, "hit") == 0)
+    {
+        return get_textures(texture_store, "character_no_sword_hit");
+    }
+    else
+    {
+        return get_textures(texture_store, "character_no_sword_idle");
     }
 }
 

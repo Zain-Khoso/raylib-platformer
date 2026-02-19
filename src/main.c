@@ -25,7 +25,7 @@ int main(void)
         player_horizontal_movement_collision(player, sprites_ptr);
         player_vertical_movement_collision(player, sprites_ptr);
 
-        animate_player(player);
+        animate_player(texture_store, player);
 
         // Camera work
         update_camera(&camera, player);
