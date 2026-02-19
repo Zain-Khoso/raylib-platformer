@@ -7,6 +7,9 @@ int main(void)
 
     ToggleFullscreen();
 
+    // Loading assets
+    TextureStore *texture_store = load_textures();
+
     // Creating sprites
     Player player = create_player();
     TileNode *sprites_ptr = create_sprites(&player);
