@@ -14,7 +14,7 @@
 #define MORE_LINES 1024
 #define MORE_CHARS 1024
 
-#define TILE_SIZE 64
+#define TILE_SIZE 32
 
 #define GRAVITY 32.0f
 #define PLAYER_SPEED 256.0f
