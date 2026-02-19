@@ -5,8 +5,15 @@ TextureStore *load_textures()
     FileRead *file = load_file("assets/textures.csv");
     CSVRead *csv = read_csv(file);
 
-    // csv->rows - 1 is to skip the header row
-    TextureStore *texture_store = malloc(sizeof(TextureStore) * (csv->rows - 1));
+    if (csv->rows <= 1)
+    {
+        unload_file(file);
+        forget_csv(csv);
+        return NULL;
+    }
+
+    // csv->rows - 1 is to skip the header row and + 1 for the null terminator
+    TextureStore *texture_store = calloc(csv->rows, sizeof(TextureStore));
 
     // i = 1 at start to skip the header
     for (unsigned int i = 1; i < csv->rows; i++)
