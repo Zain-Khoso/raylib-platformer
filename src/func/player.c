@@ -56,9 +56,9 @@ void animate_player(TextureStore *texture_store, Player *player)
 // Function to handle player's horizontal movements and horizontal collisions
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
 {
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A))
         player->velocity.x = -player->speed;
-    else if (IsKeyDown(KEY_RIGHT))
+    else if (IsKeyDown(KEY_D))
         player->velocity.x = player->speed;
     else
         player->velocity.x = 0;
