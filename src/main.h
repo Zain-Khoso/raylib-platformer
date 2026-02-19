@@ -77,6 +77,7 @@ void forget_csv(CSVRead *csv);
 // Asset manager prototypes
 TextureStore *load_textures();
 void unload_textures(TextureStore *texture_store);
+TextureStore *get_textures(TextureStore *texture_store, const char *query);
 
 // Player prototypes
 Player create_player();

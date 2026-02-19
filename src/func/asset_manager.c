@@ -83,3 +83,17 @@ void unload_textures(TextureStore *texture_store)
 
     free(texture_store);
 }
+
+TextureStore *get_textures(TextureStore *texture_store, const char *query)
+{
+    if (texture_store == NULL)
+        return NULL;
+
+    for (unsigned int i = 0; texture_store[i].type != NULL; i++)
+    {
+        if (strcmp(texture_store[i].name, query) == 0)
+            return &texture_store[i];
+    }
+
+    return NULL;
+}
