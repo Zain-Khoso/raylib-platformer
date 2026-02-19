@@ -51,6 +51,7 @@ int main(void)
         EndDrawing();
     }
 
+    delete_player(player);
     delete_sprites(&sprites_ptr);
     unload_textures(texture_store);
 

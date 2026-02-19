@@ -81,6 +81,7 @@ TextureStore *get_textures(TextureStore *texture_store, const char *query);
 
 // Player prototypes
 Player *create_player(TextureStore *texture_store);
+void delete_player(Player *player);
 void animate_player(Player *player);
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr);
 void player_vertical_movement_collision(Player *player, TileNode *list_ptr);

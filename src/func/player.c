@@ -26,6 +26,12 @@ Player *create_player(TextureStore *texture_store)
     return player;
 }
 
+// Function to free the memory allocated to player
+void delete_player(Player *player)
+{
+    free(player);
+}
+
 // Function to animate the player
 void animate_player(Player *player)
 {
