@@ -144,7 +144,8 @@ CSVRead *read_csv(const FileRead *file)
             buffer[char_count++] = c;
         }
 
-        csv->data[i] = realloc(row, sizeof(char *) * col_index);
+        csv->data[i] = realloc(row, sizeof(char *) * (col_index + 1));
+        csv->data[i][col_index] = NULL;
     }
 
     return csv;
