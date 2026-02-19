@@ -52,5 +52,34 @@ TextureStore *load_textures()
     unload_file(file);
     forget_csv(csv);
 
+    // Specifying the end of this array
+    texture_store[csv->rows - 1] = (TextureStore){0};
+
     return texture_store;
+}
+
+void unload_textures(TextureStore *texture_store)
+{
+    if (texture_store == NULL)
+    {
+        return;
+    }
+
+    for (unsigned int i = 0; texture_store[i].type != NULL; i++)
+    {
+        free(texture_store[i].type);
+        free(texture_store[i].name);
+
+        for (unsigned int f = 0; f < texture_store[i].total_frames; f++)
+        {
+            if (texture_store[i].frames[f].id > 0)
+            {
+                UnloadTexture(texture_store[i].frames[f]);
+            }
+        }
+
+        free(texture_store[i].frames);
+    }
+
+    free(texture_store);
 }

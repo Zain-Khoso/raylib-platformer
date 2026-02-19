@@ -52,6 +52,7 @@ int main(void)
     }
 
     delete_sprites(&sprites_ptr);
+    unload_textures(texture_store);
 
     CloseWindow();
 
