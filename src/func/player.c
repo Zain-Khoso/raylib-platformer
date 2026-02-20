@@ -63,7 +63,11 @@ void animate_player(TextureStore *texture_store, Player *player)
 
     player->texture = player->textures->frames[(int)player->current_frame];
 
-    player->texture_cut.width = player->texture.width;
+    if (player->facing_right)
+        player->texture_cut.width = player->texture.width;
+    else
+        player->texture_cut.width = -player->texture.width;
+
     player->texture_cut.height = player->texture.height;
 
     player->texture_rect.width = player->texture.width;
@@ -76,9 +80,15 @@ void animate_player(TextureStore *texture_store, Player *player)
 void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
 {
     if (IsKeyDown(KEY_A))
+    {
         player->velocity.x = -player->speed;
+        player->facing_right = false;
+    }
     else if (IsKeyDown(KEY_D))
+    {
         player->velocity.x = player->speed;
+        player->facing_right = true;
+    }
     else
         player->velocity.x = 0;
 
