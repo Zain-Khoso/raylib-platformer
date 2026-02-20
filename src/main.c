@@ -44,7 +44,7 @@ int main(void)
         }
 
         // Player
-        DrawTextureV(player->texture, player->texture_pos, player->color);
+        DrawTexturePro(player->texture, player->texture_cut, player->texture_rect, player->texture_org, 0.0f, player->tint);
 
         EndMode2D();
 

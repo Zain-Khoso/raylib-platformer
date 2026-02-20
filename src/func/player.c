@@ -6,26 +6,40 @@ Player *create_player(TextureStore *texture_store)
     TextureStore *animation = get_textures(texture_store, "character_no_sword_idle");
     Player *player = calloc(sizeof(Player), 1);
 
-    player->color = WHITE;
-    player->frame = 0.0f;
-    player->on_ground = false;
-    player->gravity = 32.0f;
     player->speed = 256.0f;
+    player->gravity = 32.0f;
     player->jump_power = 512.0f;
+    player->frame_speed = 0.15f;
+    player->current_frame = 0.0f;
     player->status = "idle";
+    player->tint = WHITE;
+
+    player->on_ground = false;
+    player->facing_right = true;
+
+    player->velocity.x = 0;
+    player->velocity.y = 0;
 
     player->textures = animation;
-    player->texture = animation->frames[(int)player->frame];
-    player->texture_pos.x = 0;
-    player->texture_pos.y = 0;
+    player->texture = animation->frames[(int)player->current_frame];
 
     player->rect.width = player->texture.width;
     player->rect.height = player->texture.height;
     player->rect.x = 0;
     player->rect.y = 0;
 
-    player->velocity.x = 0;
-    player->velocity.y = 0;
+    player->texture_rect.width = player->texture.width;
+    player->texture_rect.height = player->texture.height;
+    player->texture_rect.x = player->rect.x;
+    player->texture_rect.y = player->rect.y;
+
+    player->texture_cut.width = player->texture.width;
+    player->texture_cut.height = player->texture.height;
+    player->texture_cut.x = 0;
+    player->texture_cut.y = 0;
+
+    player->texture_org.x = 0;
+    player->texture_org.y = 0;
 
     return player;
 }
@@ -40,17 +54,22 @@ void delete_player(Player *player)
 void animate_player(TextureStore *texture_store, Player *player)
 {
     player->textures = get_animation(texture_store, player);
-    player->frame += PLAYER_FRAME_SPEED;
+    player->current_frame += player->frame_speed;
 
-    if (player->frame > player->textures->total_frames)
+    if (player->current_frame > player->textures->total_frames)
     {
-        player->frame = 0.0f;
+        player->current_frame = 0.0f;
     }
 
-    player->texture = player->textures->frames[(int)player->frame];
+    player->texture = player->textures->frames[(int)player->current_frame];
 
-    player->texture_pos.x = player->rect.x + (player->rect.width - player->texture.width);
-    player->texture_pos.y = player->rect.y + (player->rect.height - player->texture.height);
+    player->texture_cut.width = player->texture.width;
+    player->texture_cut.height = player->texture.height;
+
+    player->texture_rect.width = player->texture.width;
+    player->texture_rect.height = player->texture.height;
+    player->texture_rect.x = player->rect.x + (player->rect.width - player->texture.width);
+    player->texture_rect.y = player->rect.y + (player->rect.height - player->texture.height);
 }
 
 // Function to handle player's horizontal movements and horizontal collisions
