@@ -39,6 +39,7 @@ TextureStore *load_textures()
 
             ImageAlphaCrop(&image, 0);
             frames[frame_index] = LoadTextureFromImage(image);
+            SetTextureFilter(frames[frame_index], TEXTURE_FILTER_POINT);
             UnloadImage(image);
         }
 

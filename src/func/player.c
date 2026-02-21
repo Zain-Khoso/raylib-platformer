@@ -75,8 +75,8 @@ void animate_player(TextureStore *texture_store, Player *player)
 
     player->texture_rect.width = player->texture.width;
     player->texture_rect.height = player->texture.height;
-    player->texture_rect.x = player->rect.x + (player->rect.width - player->texture.width);
-    player->texture_rect.y = player->rect.y + (player->rect.height - player->texture.height);
+    player->texture_rect.x = (int)(player->rect.x + (player->rect.width - player->texture.width));
+    player->texture_rect.y = (int)(player->rect.y + (player->rect.height - player->texture.height));
 }
 
 // Function to handle player's horizontal movements and horizontal collisions
