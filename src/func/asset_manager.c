@@ -19,15 +19,16 @@ TextureStore *load_textures()
     for (unsigned int i = 1; i < csv->rows; i++)
     {
         char *type = strdup(csv->data[i][0]);
-        char *name = strdup(csv->data[i][2]);
-        unsigned int total_frames = atoi(csv->data[i][1]);
+        char *name = strdup(csv->data[i][3]);
+        bool repeat = string_to_bool(csv->data[i][1]);
+        unsigned int total_frames = atoi(csv->data[i][2]);
 
         Texture2D *frames = calloc(total_frames, sizeof(Texture2D));
 
         for (unsigned int frame_index = 0; frame_index < total_frames; frame_index++)
         {
             char path_buffer[512];
-            snprintf(path_buffer, sizeof(path_buffer), "%s%i.png", csv->data[i][3], frame_index);
+            snprintf(path_buffer, sizeof(path_buffer), "%s%i.png", csv->data[i][4], frame_index);
 
             Image image = LoadImage(path_buffer);
             if (image.data == NULL)
@@ -45,6 +46,7 @@ TextureStore *load_textures()
             type,
             name,
             total_frames,
+            repeat,
             frames,
         };
     }

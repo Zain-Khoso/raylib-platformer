@@ -38,6 +38,7 @@ typedef struct TextureStore
     char *type;
     char *name;
     unsigned int total_frames;
+    bool repeat;
     Texture2D *frames;
 } TextureStore;
 
@@ -70,6 +71,9 @@ typedef struct Player
     Vector2 texture_org;
     Texture2D texture;
 } Player;
+
+// Utilities prototypes
+bool string_to_bool(const char *val);
 
 // File reader prototypes
 FileRead *load_file(const char *path);
