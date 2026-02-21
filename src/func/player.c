@@ -162,35 +162,22 @@ TextureStore *get_animation(TextureStore *texture_store, Player *player)
     char *status = player->status;
 
     if (strcmp(status, "jump") == 0)
-    {
-        player->frame_speed = 0.15f;
         return get_textures(texture_store, "character_no_sword_jump");
-    }
+
     else if (strcmp(status, "fall") == 0)
-    {
-        player->frame_speed = 0.15f;
         return get_textures(texture_store, "character_no_sword_fall");
-    }
+
     else if (strcmp(status, "land") == 0)
-    {
-        player->frame_speed = 0.15f;
         return get_textures(texture_store, "character_no_sword_land");
-    }
+
     else if (strcmp(status, "run") == 0)
-    {
-        player->frame_speed = 0.2f;
         return get_textures(texture_store, "character_no_sword_run");
-    }
+
     else if (strcmp(status, "hit") == 0)
-    {
-        player->frame_speed = 0.15f;
         return get_textures(texture_store, "character_no_sword_hit");
-    }
+
     else
-    {
-        player->frame_speed = 0.15f;
         return get_textures(texture_store, "character_no_sword_idle");
-    }
 }
 
 // Function to initially create a camera
