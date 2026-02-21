@@ -144,6 +144,15 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
             }
         }
     }
+
+    if (player->velocity.y < 0)
+    {
+        player->status = "jump";
+    }
+    else if (!player->on_ground)
+    {
+        player->status = "fall";
+    }
 }
 
 // Function to get animation from texture_store
