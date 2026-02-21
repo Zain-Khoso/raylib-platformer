@@ -1,6 +1,7 @@
 #pragma once
 
 // Header files
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

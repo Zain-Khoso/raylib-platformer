@@ -61,7 +61,7 @@ void animate_player(TextureStore *texture_store, Player *player)
         if (player->textures->repeat)
             player->current_frame = 0.0f;
         else
-            player->current_frame = (float)(player->textures->total_frames - 1);
+            player->current_frame = player->textures->total_frames - 1;
     }
 
     player->texture = player->textures->frames[(int)player->current_frame];
@@ -75,8 +75,8 @@ void animate_player(TextureStore *texture_store, Player *player)
 
     player->texture_rect.width = player->texture.width;
     player->texture_rect.height = player->texture.height;
-    player->texture_rect.x = (int)(player->rect.x + (player->rect.width - player->texture.width));
-    player->texture_rect.y = (int)(player->rect.y + (player->rect.height - player->texture.height));
+    player->texture_rect.x = player->rect.x + (player->rect.width - player->texture.width);
+    player->texture_rect.y = player->rect.y + (player->rect.height - player->texture.height);
 }
 
 // Function to handle player's horizontal movements and horizontal collisions
@@ -223,4 +223,7 @@ void update_camera(Camera2D *camera, Player *player)
 
     if (camera->target.y > map_height - (camera->offset.y / camera->zoom))
         camera->target.y = map_height - (camera->offset.y / camera->zoom);
+
+    camera->target.x = roundf(camera->target.x);
+    camera->target.y = roundf(camera->target.y);
 }
