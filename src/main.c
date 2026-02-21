@@ -3,6 +3,7 @@
 int main(void)
 {
     // Window setup
+    SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(GetScreenWidth(), GetScreenHeight(), TITLE);
 
     ToggleFullscreen();
