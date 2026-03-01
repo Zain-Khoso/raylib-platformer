@@ -139,7 +139,7 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
             }
             else if (player->velocity.y < 0)
             {
-                player->rect.y = tile->rect.y + tile->rect.width;
+                player->rect.y = tile->rect.y + tile->rect.height;
                 player->velocity.y = 0;
             }
         }
