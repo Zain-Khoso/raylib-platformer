@@ -22,14 +22,14 @@ extern const char *level_map[];
 // Custom data structures
 typedef struct
 {
-    unsigned int erorr;
+    unsigned int error;
     unsigned int lines;
     char **data;
 } FileRead;
 
 typedef struct
 {
-    unsigned int erorr;
+    unsigned int error;
     unsigned int rows;
     char ***data;
 } CSVRead;

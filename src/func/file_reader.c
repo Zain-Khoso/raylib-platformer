@@ -5,14 +5,14 @@ FileRead *load_file(const char *path)
     FileRead *output = malloc(sizeof(FileRead));
     output->data = NULL;
     output->lines = 0;
-    output->erorr = 0;
+    output->error = 0;
 
     FILE *file = fopen(path, "r");
     if (file == NULL)
     {
         printf("\nError opening file: %s.\n", path);
 
-        output->erorr = 1;
+        output->error = 1;
         return output;
     }
 
@@ -32,7 +32,7 @@ FileRead *load_file(const char *path)
 
             free(output->data);
 
-            output->erorr = 1;
+            output->error = 1;
             output->data = NULL;
             return output;
         };
@@ -103,7 +103,7 @@ CSVRead *read_csv(const FileRead *file)
 {
     CSVRead *csv = malloc(sizeof(CSVRead));
     csv->rows = file->lines;
-    csv->erorr = 0;
+    csv->error = 0;
     csv->data = malloc(sizeof(char **) * file->lines);
 
     for (size_t i = 0; i < csv->rows; i++)
