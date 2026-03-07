@@ -56,7 +56,7 @@ void animate_player(TextureStore *texture_store, Player *player)
     player->textures = get_animation(texture_store, player);
     player->current_frame += player->frame_speed;
 
-    if (player->current_frame > player->textures->total_frames)
+    if (player->current_frame >= player->textures->total_frames)
     {
         if (player->textures->repeat)
             player->current_frame = 0.0f;
