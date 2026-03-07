@@ -50,6 +50,16 @@ typedef struct TileNode
     struct TileNode *next;
 } TileNode;
 
+enum PlayerStatus
+{
+    IDLE, // = 0
+    RUN,  // = 1
+    HIT,  // = 2
+    JUMP, // = 3
+    FALL, // = 4
+    LAND, // = 5
+};
+
 typedef struct Player
 {
     float speed;
@@ -57,7 +67,7 @@ typedef struct Player
     float jump_power;
     float frame_speed;
     float current_frame;
-    char *status;
+    enum PlayerStatus status;
     Color tint;
 
     bool on_ground;

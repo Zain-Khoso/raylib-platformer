@@ -11,7 +11,7 @@ Player *create_player(TextureStore *texture_store)
     player->jump_power = 512.0f;
     player->frame_speed = 0.15f;
     player->current_frame = 0.0f;
-    player->status = "idle";
+    player->status = IDLE;
     player->tint = WHITE;
 
     player->on_ground = false;
@@ -86,18 +86,18 @@ void player_horizontal_movement_collision(Player *player, TileNode *list_ptr)
     {
         player->velocity.x = -player->speed;
         player->facing_right = false;
-        player->status = "run";
+        player->status = RUN;
     }
     else if (IsKeyDown(KEY_D))
     {
         player->velocity.x = player->speed;
         player->facing_right = true;
-        player->status = "run";
+        player->status = RUN;
     }
     else
     {
         player->velocity.x = 0;
-        player->status = "idle";
+        player->status = IDLE;
     }
 
     player->rect.x += player->velocity.x * GetFrameTime();
@@ -147,11 +147,11 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
 
     if (player->velocity.y < 0)
     {
-        player->status = "jump";
+        player->status = JUMP;
     }
     else if (!player->on_ground)
     {
-        player->status = "fall";
+        player->status = FALL;
     }
 }
 
@@ -159,25 +159,21 @@ void player_vertical_movement_collision(Player *player, TileNode *list_ptr)
 // According to the player->status value
 TextureStore *get_animation(TextureStore *texture_store, Player *player)
 {
-    char *status = player->status;
-
-    if (strcmp(status, "jump") == 0)
+    switch (player->status)
+    {
+    case JUMP:
         return get_textures(texture_store, "character_no_sword_jump");
-
-    else if (strcmp(status, "fall") == 0)
+    case FALL:
         return get_textures(texture_store, "character_no_sword_fall");
-
-    else if (strcmp(status, "land") == 0)
+    case LAND:
         return get_textures(texture_store, "character_no_sword_land");
-
-    else if (strcmp(status, "run") == 0)
+    case RUN:
         return get_textures(texture_store, "character_no_sword_run");
-
-    else if (strcmp(status, "hit") == 0)
+    case HIT:
         return get_textures(texture_store, "character_no_sword_hit");
-
-    else
+    default:
         return get_textures(texture_store, "character_no_sword_idle");
+    }
 }
 
 // Function to initially create a camera
