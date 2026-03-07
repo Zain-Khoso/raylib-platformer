@@ -28,7 +28,7 @@ FileRead *load_file(const char *path)
         if (ferror(file))
         {
             printf("\nError reading character: %li line: %i\n", total_chars + 1, output->lines + 1);
-            printf("In file: assets/textures.csv");
+            printf("In file: %s.\n", path);
 
             free(output->data);
 
