@@ -1,4 +1,5 @@
-#include "../main.h"
+#include "../types.h"
+#include "../prototypes.h"
 
 const char *level_map[] = {
     "                                                                                    ",

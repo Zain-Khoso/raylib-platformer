@@ -1,4 +1,5 @@
-#include "../main.h"
+#include "../types.h"
+#include "../prototypes.h"
 
 FileRead *load_file(const char *path)
 {

@@ -1,4 +1,5 @@
-#include "../main.h"
+#include "../types.h"
+#include "../prototypes.h"
 
 bool string_to_bool(const char *val)
 {
