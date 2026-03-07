@@ -18,7 +18,7 @@ const char *level_map[] = {
 TileNode *create_sprites(Player *player)
 {
     TileNode *list_ptr = NULL;
-    int level_rows = 11; // Hardcoded to match your map rows
+    int level_rows = sizeof(level_map) / sizeof(level_map[0]);
     int level_cols = strlen(level_map[0]);
 
     for (int row = 0; row < level_rows; row++)
