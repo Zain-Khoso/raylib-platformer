@@ -5,7 +5,7 @@ const char *level_map[] = {
     "                                                                                    ",
     "                                                                                    ",
     "                                                                                    ",
-    " XX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    " XX                                                                                 ",
     " XX                          XX                          XX                         ",
     " XXXX         XX         XX  XXXX         XX         XX  XXXX         XX         XX ",
     " XXXX  P    XX               XXXX       XX               XXXX       XX              ",
